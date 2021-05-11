@@ -1,12 +1,12 @@
 import './App.css';
-import Login from './pages/login'
+import Routes from './routes';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Login/>
+    <div>
+      <Routes />
     </div>
-  );
+  )
 }
 
 export default App;

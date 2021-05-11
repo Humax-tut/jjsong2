@@ -31,18 +31,19 @@ function Login() {
     const onSubmitAccount = async () => {
         try {
             const user = await fetchLogin(account);
-            console.log(user);
             //성공하면 해당 user 아이디 패스워드값 셋팅
             setUser(user);
             //성공하면 해당 url로 이동(main페이지로)
-            alert('hi');
-            //history.replace("/");
+            history.replace("/main");
         } catch (error) {
-
             //실패하면 throw new Error("") 값 출력
             window.alert(error);
         }
     };
+
+    const goToRegister = () => {
+        history.replace("/register");
+    }
     return (
         <div>
             <input
@@ -59,6 +60,7 @@ function Login() {
                 onChange={onChangeAccount}
             />
             <button onClick={onSubmitAccount}>로그인</button>
+            <button onClick={goToRegister}>회원가입</button>
         </div>
     );
 }

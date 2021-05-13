@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { fetchLogin } from "./service";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../features/userSlice";
 
 function Login() {
     //글로벌 전역 상태값 setUser를 받아옴
     //로그인이 성공적으로 이루어지면 user에 상태값을 넣어줘야지 나중에 다른 컴포넌트에서도 user값을 이용하여 다른 것들을 할 수 있음
-    //const { setUser } = useUserContext();
     const [user, setUser] = useState(null)
     //url 이동을 위한 useHistory
     const history = useHistory();
+    const dispatch = useDispatch();
 
     //input에서 입력한 아이디와 비밀번호 정보를 담기위한 state
     const [account, setAccount] = useState({
@@ -33,13 +35,26 @@ function Login() {
             const user = await fetchLogin(account);
             //성공하면 해당 user 아이디 패스워드값 셋팅
             setUser(user);
+            console.log(user);
             //성공하면 해당 url로 이동(main페이지로)
+            handleSubmit(user);
             history.replace("/main");
         } catch (error) {
             //실패하면 throw new Error("") 값 출력
             window.alert(error);
         }
     };
+
+    const handleSubmit = (user) => {
+        dispatch(
+            login({
+              name: user.UserName,
+              email: user.EMail,
+              password: user.Password,
+              loggedIn: true,
+            })
+          );
+    }
 
     const goToRegister = () => {
         history.replace("/register");

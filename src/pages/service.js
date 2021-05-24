@@ -9,7 +9,6 @@ export const fetchLogin = async ({ id, password }) => {
     const users = await response.json();
 
     //users안 객체들을 순회하면서 그 객체들의 id값과 form 컴포넌트에서 받음 account의 id값과 비교
-    //서로 일치하는 것만 user에 대입
     const user = users.find((user) => user.EMail === id);
     //일치하는 user가 없거나, 비밀번호가 틀리면 해당 에러 생성
     if (!user || user.Password !== password) {

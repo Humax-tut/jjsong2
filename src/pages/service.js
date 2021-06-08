@@ -1,5 +1,14 @@
 import moment from 'moment';
 
+export const getUserAll = async () => {
+  const response = await fetch("http://localhost:4000/Users");
+
+  if (response.ok) {
+    const users = await response.json();
+    return users;
+  }
+}
+
 //동기식 방식 ( async await 사용!!!!!)
 export const fetchLogin = async ({ id, password }) => {
   const response = await fetch("http://localhost:4000/Users");

@@ -33,7 +33,8 @@ function Login() {
             setUser(user);
             //성공하면 해당 url로 이동(main페이지로)
             handleSubmit(user);
-            history.replace("/main");
+            window.location.replace("/main")
+            // history.replace("/main");
         } catch (error) {
             //실패하면 throw new Error("") 값 출력
             window.alert(error);

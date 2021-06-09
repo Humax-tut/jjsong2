@@ -4,7 +4,7 @@ export const getUserAll = async () => {
   const response = await fetch("http://localhost:4000/Users");
 
   if (response.ok) {
-    const users = await response.json();
+  const users = await response.json();
     return users;
   }
 }

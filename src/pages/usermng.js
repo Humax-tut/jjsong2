@@ -1,72 +1,73 @@
-import React,  { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import React, { Component } from "react";
+import { withStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 import { getUserAll } from "./service";
 
-const useStyles = makeStyles({
+const useStyles = {
   table: {
     minWidth: 650,
+    maxWidth: 1200,
+    margin: "auto",
   },
-});
+};
 
 let rows = [];
 
-const getUserData = async () => {
-    let user = [];
-    try {
-        user = await getUserAll();
-        rows = user;
-        console.log(rows);
-    } catch (error) {
-        //실패하면 throw new Error("") 값 출력
-        window.alert(error);
-    }
-    return user;
-};
+class BasicTable extends Component {
+  getUserData = async () => {
+    rows = await getUserAll();
+    this.setState({ rows });
+  };
 
-console.log(rows);
+  componentWillMount() {
+    this.getUserData();
+  }
 
+  goToMain() {
+    window.location.replace("/main");
+  }
 
-export default function BasicTable() {
-    useEffect(() => { // Update the document title using the browser API document.title = `You clicked ${count} times`; });
-        console.log('1231231312');
-  });
-  const classes = useStyles();
-  getUserData();
-  return (
+  render() {
+    const { classes } = this.props;
+    return (
       <div>
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell component="th" scope="row">
-                {row.UserName}
-              </TableCell>
-              <TableCell align="right">{row.EMail}</TableCell>
-              <TableCell align="right">{row.IsActive}</TableCell>
-              <TableCell align="right">{row.UserID}</TableCell>
-              <TableCell align="right">{row.SystemRole}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-    </div>
-  );
+        <h2>회원 관리</h2>
+        <button onClick={this.goToMain}>메인화면 이동</button>
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>이름</TableCell>
+                <TableCell align="right">이메일</TableCell>
+                <TableCell align="right">활성화</TableCell>
+                <TableCell align="right">UserID</TableCell>
+                <TableCell align="right">권한</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell component="th" scope="row">
+                    {row.UserName}
+                  </TableCell>
+                  <TableCell align="right">{row.EMail}</TableCell>
+                  <TableCell align="right">{row.IsActive}</TableCell>
+                  <TableCell align="right">{row.UserID}</TableCell>
+                  <TableCell align="right">{row.SystemRole}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+    );
+  }
 }
+
+export default withStyles(useStyles)(BasicTable);

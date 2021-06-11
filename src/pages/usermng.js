@@ -25,6 +25,7 @@ class BasicTable extends Component {
     this.setState({ rows });
   };
 
+  // 회원정보 불러온 뒤 렌더링
   componentWillMount() {
     this.getUserData();
   }
@@ -44,10 +45,10 @@ class BasicTable extends Component {
             <TableHead>
               <TableRow>
                 <TableCell>이름</TableCell>
-                <TableCell align="right">이메일</TableCell>
-                <TableCell align="right">활성화</TableCell>
-                <TableCell align="right">UserID</TableCell>
-                <TableCell align="right">권한</TableCell>
+                <TableCell align="center">이메일</TableCell>
+                <TableCell align="center">활성화</TableCell>
+                <TableCell align="center">UserID</TableCell>
+                <TableCell align="center">권한</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -56,10 +57,10 @@ class BasicTable extends Component {
                   <TableCell component="th" scope="row">
                     {row.UserName}
                   </TableCell>
-                  <TableCell align="right">{row.EMail}</TableCell>
-                  <TableCell align="right">{row.IsActive}</TableCell>
-                  <TableCell align="right">{row.UserID}</TableCell>
-                  <TableCell align="right">{row.SystemRole}</TableCell>
+                  <TableCell align="center">{row.EMail}</TableCell>
+                  <TableCell align="center">{row.IsActive}</TableCell>
+                  <TableCell align="center">{row.UserID}</TableCell>
+                  <TableCell align="center">{row.SystemRole}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

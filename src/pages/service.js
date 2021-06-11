@@ -1,17 +1,20 @@
-import moment from 'moment';
+import moment from "moment";
 
+var url = "http://localhost:4000/Users";
+
+// 모든 회원정보 조회
 export const getUserAll = async () => {
-  const response = await fetch("http://localhost:4000/Users");
+  const response = await fetch(url);
 
   if (response.ok) {
-  const users = await response.json();
+    const users = await response.json();
     return users;
   }
-}
+};
 
-//동기식 방식 ( async await 사용!!!!!)
+// 로그인
 export const fetchLogin = async ({ id, password }) => {
-  const response = await fetch("http://localhost:4000/Users");
+  const response = await fetch(url);
 
   if (response.ok) {
     //서버통신이 성공적으로 이루어지면 users에 json값 대입
@@ -30,10 +33,10 @@ export const fetchLogin = async ({ id, password }) => {
   throw new Error("서버 통신이 원할하지 않습니다.");
 };
 
+// 회원가입
 export const fetchRegister = async ({ email, userName, password }) => {
-  var url = "http://localhost:4000/Users";
   const response = await fetch(url);
-  var result = 'fail';
+  var result = "fail";
   if (response.ok) {
     //서버통신이 성공적으로 이루어지면 users에 json값 대입
     const users = await response.json();
@@ -62,32 +65,35 @@ export const fetchRegister = async ({ email, userName, password }) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            "id": maxId,
-            "CustomerCompanyID": 1,
-            "CustomerCompanyName": "IT",
-            "UserID": maxUserID,
-            "UserName": userName,
-            "EMail": email,
-            "Password": password,
-            "SystemRole": "GENERAL",
-            "IsActive": 1,
-            "CreateUserID": 743,
-            "CreateDate": moment().format('YYYY-MM-DD HH:mm:ss'),
-            "UpdateUserID": null,
-            "UpdateDate": null
+            id: maxId,
+            CustomerCompanyID: 1,
+            CustomerCompanyName: "IT",
+            UserID: maxUserID,
+            UserName: userName,
+            EMail: email,
+            Password: password,
+            SystemRole: "GENERAL",
+            IsActive: 1,
+            CreateUserID: 743,
+            CreateDate: moment().format("YYYY-MM-DD HH:mm:ss"),
+            UpdateUserID: null,
+            UpdateDate: null,
           }),
-        }).then(res => {
-          if (res.ok) {
-            alert("생성이 완료 되었습니다");
-          }
-        }).catch(function (error) {                        // catch
-          console.log('Request failed', error);
-        });
-        result =  'success'
+        })
+          .then((res) => {
+            if (res.ok) {
+              alert("생성이 완료 되었습니다");
+            }
+          })
+          .catch(function (error) {
+            // catch
+            console.log("Request failed", error);
+          });
+        result = "success";
       } catch (error) {
         //실패하면 throw new Error("") 값 출력
         window.alert(error);
-        result =  'fail'
+        result = "fail";
       }
     }
     return result;

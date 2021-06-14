@@ -539,6 +539,21 @@
       "CreateDate": "2021-06-10 16:58:04",
       "UpdateUserID": null,
       "UpdateDate": null
+    },
+    {
+      "id": 37,
+      "CustomerCompanyID": 1,
+      "CustomerCompanyName": "IT",
+      "UserID": 5135,
+      "UserName": "박윤아",
+      "EMail": "yakim@humaxit.com",
+      "Password": "1234",
+      "SystemRole": "GENERAL",
+      "IsActive": 1,
+      "CreateUserID": 743,
+      "CreateDate": "2021-06-14 16:38:32",
+      "UpdateUserID": null,
+      "UpdateDate": null
     }
   ]
 }

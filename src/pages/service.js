@@ -12,6 +12,15 @@ export const getUserAll = async () => {
   }
 };
 
+// 회원정보 조회 (1명)
+export const getUserbyId = async (id) => {
+  const response = await fetch(url);
+  const users = await response.json();
+  const user = users.find((user) => user.id === id);
+
+  return user;
+};
+
 // 로그인
 export const fetchLogin = async ({ id, password }) => {
   const response = await fetch(url);

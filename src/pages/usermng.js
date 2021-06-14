@@ -34,6 +34,10 @@ class BasicTable extends Component {
     window.location.replace("/main");
   }
 
+  goToDetail(a) {
+    window.open('/usermng_view?id=' + a, 'User_Mng', "width=900,height=600");
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -54,7 +58,7 @@ class BasicTable extends Component {
             <TableBody>
               {rows.map((row) => (
                 <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
+                  <TableCell component="th" scope="row"  onClick={() => this.goToDetail(row.id)}>
                     {row.UserName}
                   </TableCell>
                   <TableCell align="center">{row.EMail}</TableCell>

@@ -16,7 +16,8 @@ export const getUserAll = async () => {
 export const getUserbyId = async (id) => {
   const response = await fetch(url);
   const users = await response.json();
-  const user = users.find((user) => user.id === id);
+  let stringid = parseInt(id);
+  const user = users.find((user) => user.id === stringid);
 
   return user;
 };
@@ -104,6 +105,59 @@ export const fetchRegister = async ({ email, userName, password }) => {
         window.alert(error);
         result = "fail";
       }
+    }
+    return result;
+  }
+
+  //서버 통신이 안이루어졌을떄
+  throw new Error("서버 통신이 원할하지 않습니다.");
+};
+
+// 이름 수정
+export const setUserName = async (id, UserName) => {
+  const response = await fetch(url);
+  var result = "fail";
+  if (response.ok) {
+    //서버통신이 성공적으로 이루어지면 users에 json값 대입
+    const users = await response.json();
+    //이메일 중복체크
+    const user = users.find((user) => user.id === id);
+    try {
+      await fetch(url + '/'+ id, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: id,
+          CustomerCompanyID: user.CustomerCompanyID,
+          CustomerCompanyName: user.CustomerCompanyName,
+          UserID: user.UserID,
+          UserName: UserName,
+          EMail: user.EMail,
+          Password: user.Password,
+          SystemRole: user.SystemRole,
+          IsActive: user.IsActive,
+          CreateUserID: user.CreateUserID,
+          CreateDate: user.CreateDate,
+          UpdateUserID: user.UpdateUserID,
+          UpdateDate: moment().format("YYYY-MM-DD HH:mm:ss"),
+        }),
+      })
+        .then((res) => {
+          if (res.ok) {
+            alert("수정이 완료 되었습니다");
+          }
+        })
+        .catch(function (error) {
+          // catch
+          console.log("Request failed", error);
+        });
+      result = "success";
+    } catch (error) {
+      //실패하면 throw new Error("") 값 출력
+      window.alert(error);
+      result = "fail";
     }
     return result;
   }

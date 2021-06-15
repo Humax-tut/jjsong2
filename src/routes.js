@@ -3,6 +3,7 @@ import Register from './pages/register';
 import Main from './pages/main';
 import Usermng from './pages/usermng';
 import Usermng_View from './pages/usermng_view';
+import Test from './pages/test';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 export default () => (
@@ -12,6 +13,7 @@ export default () => (
       <Route path="/login" component={Login} />
       <Route path="/usermng" component={Usermng} />
       <Route path="/usermng_view" component={Usermng_View} />
+      <Route path="/test" component={Test} />
       <Route exact path="/" component={Login} />
     </Router>
   )

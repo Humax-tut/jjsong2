@@ -58,11 +58,11 @@ class BasicTable extends Component {
             <TableBody>
               {rows.map((row) => (
                 <TableRow key={row.id}>
-                  <TableCell component="th" scope="row"  onClick={() => this.goToDetail(row.id)}>
+                  <TableCell component="th" scope="row"  onClick={() => this.goToDetail(row.id)} >
                     {row.UserName}
                   </TableCell>
                   <TableCell align="center">{row.EMail}</TableCell>
-                  <TableCell align="center">{row.IsActive}</TableCell>
+                  <TableCell align="center">{row.IsActive == 1 ? "활성화" : "비활성화"}</TableCell>
                   <TableCell align="center">{row.UserID}</TableCell>
                   <TableCell align="center">{row.SystemRole}</TableCell>
                 </TableRow>

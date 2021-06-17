@@ -13,7 +13,7 @@
       "CreateUserID": 1,
       "CreateDate": "2019-01-04 08:37:45.0",
       "UpdateUserID": 743,
-      "UpdateDate": "2021-04-22 08:01:54.0"
+      "UpdateDate": "2021-06-16 16:57:06"
     },
     {
       "id": 2,
@@ -519,11 +519,11 @@
       "EMail": "test@test.com",
       "Password": "testtest",
       "SystemRole": "GENERAL",
-      "IsActive": 1,
+      "IsActive": "1",
       "CreateUserID": 743,
       "CreateDate": "2021-05-13 16:57:38",
       "UpdateUserID": null,
-      "UpdateDate": null
+      "UpdateDate": "2021-06-16 16:55:23"
     },
     {
       "id": 36,

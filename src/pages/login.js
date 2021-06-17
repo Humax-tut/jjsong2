@@ -47,6 +47,8 @@ function Login() {
               email: user.EMail,
               password: user.Password,
               loggedIn: true,
+              IsActive: user.IsActive,
+              SystemRole: user.SystemRole,
             })
           );
     }

@@ -113,8 +113,8 @@ export const fetchRegister = async ({ email, userName, password }) => {
   throw new Error("서버 통신이 원할하지 않습니다.");
 };
 
-// 이름 수정
-export const setUserName = async (id, UserName) => {
+// 이름, 활성화 여부 수정
+export const setUserName = async (id, UserName, IsActive) => {
   const response = await fetch(url);
   var result = "fail";
   if (response.ok) {
@@ -137,7 +137,7 @@ export const setUserName = async (id, UserName) => {
           EMail: user.EMail,
           Password: user.Password,
           SystemRole: user.SystemRole,
-          IsActive: user.IsActive,
+          IsActive: parseInt(IsActive),
           CreateUserID: user.CreateUserID,
           CreateDate: user.CreateDate,
           UpdateUserID: user.UpdateUserID,

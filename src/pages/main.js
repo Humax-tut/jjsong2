@@ -10,6 +10,7 @@ function Main() {
   const userInf = JSON.parse(myObject);
   const empname = userInf.name;
   const email = userInf.email;
+  const systemrole = userInf.SystemRole;
 
   const Logout = () => {
     dispatch(
@@ -30,7 +31,7 @@ function Main() {
       <p>이름 : {empname}</p>
       <p>이메일 : {email}</p>
       <br/>
-      <button onClick={goToUserMng}>회원 관리</button>
+      {systemrole == "Role.Legal.SuperAdmin" ? <button onClick={goToUserMng}>회원 관리</button> : ""}
     </div>
   );
 }

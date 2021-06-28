@@ -4,7 +4,7 @@ import { Redirect, Route, Switch, BrowserRouter } from 'react-router-dom';
 import Login from './pages/login';
 import Register from './pages/register';
 
-
+// hello~
 // authUser 정보를 확인하여 정보가 없으면 login 페이지로 이동~
 const RestrictedRoute = ({ component: Component, callback: Callback, authUser, ...rest }) => {
   return (

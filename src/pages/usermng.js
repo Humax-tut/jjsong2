@@ -6,6 +6,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import Select from 'react-select';
 import Paper from "@material-ui/core/Paper";
 import { getUserAll } from "./service";
 
@@ -19,6 +20,11 @@ const useStyles = {
 
 let rows = [];
 
+const Activeoptions = [
+  { value: '', label: '전체' },
+  { value: '1', label: '활성화' },
+  { value: '0', label: '비활성화' },
+];
 class BasicTable extends Component {
   getUserData = async () => {
     rows = await getUserAll();
@@ -38,38 +44,65 @@ class BasicTable extends Component {
     window.open('/usermng_view?id=' + a, 'User_Mng', "width=900,height=600");
   }
 
+  state = {
+    selectedOption: null,
+  };
+  handleChange = selectedOption => {
+    this.setState({ selectedOption });
+    console.log(`Option selected:`, selectedOption);
+  };
+
   render() {
+    const { selectedOption } = this.state;
     const { classes } = this.props;
     return (
       <div>
         <h2>회원 관리</h2>
         <button onClick={this.goToMain}>메인화면 이동</button>
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>이름</TableCell>
-                <TableCell align="center">이메일</TableCell>
-                <TableCell align="center">활성화</TableCell>
-                <TableCell align="center">UserID</TableCell>
-                <TableCell align="center">권한</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row"  onClick={() => this.goToDetail(row.id)} >
-                    {row.UserName}
-                  </TableCell>
-                  <TableCell align="center">{row.EMail}</TableCell>
-                  <TableCell align="center">{row.IsActive == 1 ? "활성화" : "비활성화"}</TableCell>
-                  <TableCell align="center">{row.UserID}</TableCell>
-                  <TableCell align="center">{row.SystemRole}</TableCell>
+        <div>
+          <h2>회원 관리</h2>
+          <button onClick={this.goToMain}>메인화면 이동</button>
+        </div>
+        <div>
+          <Select
+            value={selectedOption}
+            onChange={this.handleChange}
+            options={Activeoptions}
+          />
+          <select id='_role'>
+            <option value=''>전체</option>
+            <option value='GENERAL'>GENERAL</option>
+            <option value='Role.Legal.SuperAdmin'>SUPER ADMIN</option>
+            <option value='Role.Legal.InternalLawyer'>INTERNAL LAWYER</option>
+          </select>
+          <input type='text' id='txtSearch' placeholder='이름, 이메일, UserID...'></input>
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>이름</TableCell>
+                  <TableCell align="center">이메일</TableCell>
+                  <TableCell align="center">활성화</TableCell>
+                  <TableCell align="center">UserID</TableCell>
+                  <TableCell align="center">권한</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row" onClick={() => this.goToDetail(row.id)} >
+                      {row.UserName}
+                    </TableCell>
+                    <TableCell align="center">{row.EMail}</TableCell>
+                    <TableCell align="center">{row.IsActive == 1 ? "활성화" : "비활성화"}</TableCell>
+                    <TableCell align="center">{row.UserID}</TableCell>
+                    <TableCell align="center">{row.SystemRole}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
       </div>
     );
   }

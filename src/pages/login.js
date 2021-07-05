@@ -57,8 +57,9 @@ function Login() {
         history.replace("/register");
     }
 
-    const onLogin = () => {
-        console.log(account);
+    const onLogin = (e) => {
+        if (e.key != "Enter") { return; }
+        console.log(account, e.key);
         if (account.id.length > 0 && account.password.length > 0) {
             onSubmitAccount();
         }

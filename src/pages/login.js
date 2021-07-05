@@ -56,6 +56,14 @@ function Login() {
     const goToRegister = () => {
         history.replace("/register");
     }
+
+    const onLogin = () => {
+        console.log(account);
+        if (account.id.length > 0 && account.password.length > 0) {
+            onSubmitAccount();
+        }
+    }
+
     return (
         <div>
             <input
@@ -63,6 +71,7 @@ function Login() {
                 name="id"
                 placeholder="아이디를 입력해주세요"
                 onChange={onChangeAccount}
+                onKeyPress={onLogin}
             />
             <input
                 id="password"
@@ -70,6 +79,7 @@ function Login() {
                 type="password"
                 placeholder="비밀번호를 입력해주세요"
                 onChange={onChangeAccount}
+                onKeyPress={onLogin}
             />
             <button onClick={onSubmitAccount}>로그인</button>
             <button onClick={goToRegister}>회원가입</button>

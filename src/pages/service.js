@@ -2,13 +2,13 @@ import moment from "moment";
 
 var url = "http://localhost:4000/Users";
 
-// 모든 회원정보 조회
-export const getUserAll = async () => {
+// 회원정보 조회 (파라미터)
+export const getUserAll = async (param) => {
   const response = await fetch(url);
-
   if (response.ok) {
     const users = await response.json();
-    return users;
+    const finduser = users.filter((user) => user.UserName.indexOf(param.searchText) !== -1)
+    return finduser;
   }
 };
 

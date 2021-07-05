@@ -18,22 +18,28 @@ const useStyles = {
   },
 };
 
-let rows = [];
-
 const Activeoptions = [
   { value: '', label: '전체' },
   { value: '1', label: '활성화' },
   { value: '0', label: '비활성화' },
 ];
+
 class BasicTable extends Component {
   getUserData = async () => {
-    rows = await getUserAll();
-    this.setState({ rows });
+    const rowss = await getUserAll(this.state);
+    this.setState({ rows: rowss });
   };
 
+  componentDidMount() {
+    this.setState({ isChanged: true });
+  }
+
   // 회원정보 불러온 뒤 렌더링
-  componentWillMount() {
-    this.getUserData();
+  componentDidUpdate() {
+    if (this.state.isChanged) {
+      this.getUserData();
+      this.setState({ isChanged: false });
+    }
   }
 
   goToMain() {
@@ -46,11 +52,16 @@ class BasicTable extends Component {
 
   state = {
     selectedOption: null,
+    searchText: '',
+    isChanged: false,
+    rows: [],
   };
   handleChange = selectedOption => {
-    this.setState({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
+    this.setState({ selectedOption: selectedOption, isChanged: true });
   };
+  onChangeSearchText = searchText => {
+    this.setState({ searchText: searchText.target.value, isChanged: true });
+  }
 
   render() {
     const { selectedOption } = this.state;
@@ -64,18 +75,20 @@ class BasicTable extends Component {
           <button onClick={this.goToMain}>메인화면 이동</button>
         </div>
         <div>
+          <div style={{width : '20em'}}>
           <Select
             value={selectedOption}
             onChange={this.handleChange}
             options={Activeoptions}
           />
+          </div>
           <select id='_role'>
             <option value=''>전체</option>
             <option value='GENERAL'>GENERAL</option>
             <option value='Role.Legal.SuperAdmin'>SUPER ADMIN</option>
             <option value='Role.Legal.InternalLawyer'>INTERNAL LAWYER</option>
           </select>
-          <input type='text' id='txtSearch' placeholder='이름, 이메일, UserID...'></input>
+          <input type='text' id='txtSearch' placeholder='이름, 이메일, UserID...' onChange={this.onChangeSearchText}></input>
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
@@ -88,7 +101,7 @@ class BasicTable extends Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {this.state.rows.map((row) => (
                   <TableRow key={row.id}>
                     <TableCell component="th" scope="row" onClick={() => this.goToDetail(row.id)} >
                       {row.UserName}

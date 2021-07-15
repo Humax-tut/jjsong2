@@ -23,6 +23,10 @@ function Main() {
     history.replace("/usermng");
   }
 
+  const goToBoard = () => {
+    history.replace("/board");
+  }
+
   return (
     <div>
       <h1>Main 화면</h1>
@@ -32,6 +36,7 @@ function Main() {
       <p>이메일 : {email}</p>
       <br/>
       {systemrole == "Role.Legal.SuperAdmin" ? <button onClick={goToUserMng}>회원 관리</button> : ""}
+      <button onClick={goToBoard}>게시판</button>
     </div>
   );
 }

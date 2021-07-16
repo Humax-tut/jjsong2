@@ -1,6 +1,7 @@
 import moment from "moment";
 
 var url = "http://localhost:4000/Users";
+var boardUrl = "http://localhost:4000/Board";
 
 // 회원정보 조회 (파라미터)
 export const getUserAll = async (param) => {

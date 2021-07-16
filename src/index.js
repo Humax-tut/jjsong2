@@ -8,6 +8,7 @@ import configureStore from "./app/store";
 
 const { store, persistor } = configureStore();
 
+
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}></PersistGate>

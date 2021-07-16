@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getUserbyId, setUserName } from "./service";
+import { getUserbyId, setUserName } from "../service";
 import queryString from "query-string";
 import { Button } from "@material-ui/core";
 

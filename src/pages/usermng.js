@@ -8,7 +8,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Select from 'react-select';
 import Paper from "@material-ui/core/Paper";
-import { getUserAll } from "./service";
+import { getUserAll } from "../service";
 
 const useStyles = {
   table: {

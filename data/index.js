@@ -5,6 +5,6 @@ const board = require('./Board.json');
 // http://localhost:4000/Board
 
 module.exports = () => ({
-    Users: users,
-    Board: board
+    users: users,
+    board: board
 });

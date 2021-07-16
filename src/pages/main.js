@@ -1,6 +1,8 @@
 import { logout } from "../features/userSlice";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import Test from "./test"
+import Test2 from "./test2"
 
 function Main() {
   const history = useHistory();
@@ -24,7 +26,7 @@ function Main() {
   }
 
   const goToBoard = () => {
-    history.replace("/board");
+    history.replace("/boards");
   }
 
   return (
@@ -37,6 +39,11 @@ function Main() {
       <br/>
       {systemrole == "Role.Legal.SuperAdmin" ? <button onClick={goToUserMng}>회원 관리</button> : ""}
       <button onClick={goToBoard}>게시판</button>
+
+      <br></br>
+      <br></br>
+      <Test2></Test2>
+      <Test></Test>
     </div>
   );
 }

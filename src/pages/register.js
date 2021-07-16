@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { fetchRegister } from "./service";
+import { fetchRegister } from "../service";
 import { useHistory } from "react-router-dom";
 
 function Register() {

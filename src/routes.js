@@ -4,9 +4,9 @@ import Register from './pages/register';
 import Main from './pages/main';
 import Usermng from './pages/usermng';
 import Usermng_View from './pages/usermng_view';
-import Board from './pages/board';
+import Boards from './pages/boards';
 import NotFound from './pages/404';
-import { Route, Switch, Router, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 class App extends React.Component {
@@ -19,7 +19,7 @@ class App extends React.Component {
           <Route path="/login" component={Login} />
           <Route path="/usermng" component={Usermng} />
           <Route path="/usermng_view" component={Usermng_View} />
-          <Route path="/board" component={Board} />
+          <Route path="/boards" component={Boards} />
           <Route component={NotFound} />
         </Switch>
     );

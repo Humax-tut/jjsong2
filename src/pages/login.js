@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { fetchLogin } from "./service";
+import { fetchLogin } from "../service";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../features/userSlice";

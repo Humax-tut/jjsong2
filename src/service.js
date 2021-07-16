@@ -7,7 +7,7 @@ var boardUrl = "http://localhost:4000/Board";
 export const getUserAll = async (param) => {
   const response = await fetch(url);
   if (response.ok) {
-    const users = await response.json();
+    const users = (await response.json()).Users;
     const finduser = users.filter((user) => user.UserName.indexOf(param.searchText) !== -1)
     return finduser;
   }
@@ -16,10 +16,9 @@ export const getUserAll = async (param) => {
 // 회원정보 조회 (1명)
 export const getUserbyId = async (id) => {
   const response = await fetch(url);
-  const users = await response.json();
+  const users = (await response.json()).Users;
   let stringid = parseInt(id);
   const user = users.find((user) => user.id === stringid);
-
   return user;
 };
 
@@ -29,8 +28,8 @@ export const fetchLogin = async ({ id, password }) => {
 
   if (response.ok) {
     //서버통신이 성공적으로 이루어지면 users에 json값 대입
-    const users = await response.json();
-
+    const users = (await response.json()).Users;
+    
     //users안 객체들을 순회하면서 그 객체들의 id값과 form 컴포넌트에서 받음 account의 id값과 비교
     const user = users.find((user) => user.EMail === id);
     //일치하는 user가 없거나, 비밀번호가 틀리면 해당 에러 생성
@@ -50,7 +49,7 @@ export const fetchRegister = async ({ email, userName, password }) => {
   var result = "fail";
   if (response.ok) {
     //서버통신이 성공적으로 이루어지면 users에 json값 대입
-    const users = await response.json();
+    const users = (await response.json()).Users;
     //이메일 중복체크
     const user = users.find((user) => user.EMail === email);
     const arr = [];
@@ -120,7 +119,7 @@ export const setUserName = async (id, UserName, IsActive) => {
   var result = "fail";
   if (response.ok) {
     //서버통신이 성공적으로 이루어지면 users에 json값 대입
-    const users = await response.json();
+    const users = (await response.json()).Users;
     //이메일 중복체크
     const user = users.find((user) => user.id === id);
     try {
@@ -165,4 +164,23 @@ export const setUserName = async (id, UserName, IsActive) => {
 
   //서버 통신이 안이루어졌을떄
   throw new Error("서버 통신이 원할하지 않습니다.");
+
+};
+
+
+// 게시판 정보 조회 (파라미터)
+export const getAllBoard = async (param) => {
+  const response = await fetch(boardUrl);
+  
+  if (response.ok) {
+    const boards = (await response.json()).Boards;
+    // console.log(param);
+    if(param.searchText.trim().length < 1){
+      return boards;
+    }
+    console.log(param.searchText.trim().length);
+    
+    const findBoards = boards.filter((board) => board.title.indexOf(param.searchText) !== -1)
+    return findBoards;
+  }
 };

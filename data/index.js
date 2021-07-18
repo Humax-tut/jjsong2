@@ -1,10 +1,10 @@
-const users = require('./Users.json');
-const board = require('./Board.json');
+// const Users = require('./Users.json');
+// const Boards = require('./Board.json');
 
-// http://localhost:4000/Users
-// http://localhost:4000/Board
+// // http://localhost:4000/Users
+// // http://localhost:4000/Boards
 
-module.exports = () => ({
-    users: users,
-    board: board
-});
+// module.exports = () => ({
+//     Users,
+//     Boards
+// });

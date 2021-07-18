@@ -1,145 +1,122 @@
-import React, { Component } from "react";
-import { withStyles, useTheme } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import Paper from "@material-ui/core/Paper";
-import { getAllBoard } from "../service";
+import React, { render, useState } from "react";
+import { makeStyles } from '@material-ui/core/styles';
+import Button from "@material-ui/core/Button";
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { getUserbyId, setBoard } from "../service";
 
-// 커스텀 스타일
-const useStyles = {
-  table: {
-    minWidth: 650,
-    maxWidth: 1200,
-    margin: "auto",
+const useStyles = makeStyles((theme) => ({
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  title: {
-    minWidth: 650,
-    maxWidth: 1200,
-    margin: "auto",
-    paddingBottom: '30px',
+  root: {
+    width: '25ch',
   },
-  searchArea: {
-    minWidth: 650,
-    maxWidth: 1200,
-    margin: "auto",
-    border: '1px solid gray',
-    padding: '10px',
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(2, 4, 3),
   },
-  selectBox: {
-    width: '300px',
-    marginRight: '10px',
-  }
-};
+}));
 
-const Activeoptions = [
-  { value: '', label: '전체' },
-  { value: '1', label: '활성화' },
-  { value: '0', label: '비활성화' },
-];
-
-
-class BasicTable extends Component {
+function Board() {
   
-  state = {
-    selectedOption: '',
-    searchText: '',
-    isChanged: false,
-    row: [],
+  const myObject = JSON.parse(localStorage.getItem("persist:root")).user;
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+
+
+  const handleOpen = () => {
+    setOpen(true);
   };
 
-  // lifecycle, 
-  componentDidMount() {
-    this.setState({ isChanged: true });
-  }
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-  // lifecycle, 회원정보 불러온 뒤 렌더링
-  componentDidUpdate() {
-    if (this.state.isChanged) {
-      this.getUserData();
-      this.setState({ isChanged: false });
+  const handleSave = () => {
+    UpdateUser();
+    setOpen(false);
+  };
+
+  const changeTitle = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const changeContent = (e) => {
+    setContent(e.target.value);
+  };
+
+  const UpdateUser = async () => {
+    let result =  await setBoard(-1, title, content, myObject);
+    console.log('result'+result);
+    if(result == "success") {
+      alert('success');
     }
-  }
-
-  // 메소드
-  getUserData = async () => {
-    const rowData = await getAllBoard(this.state);
-    this.setState({ row: rowData });
+    else {
+      alert(result);
+    }
   };
 
-  goToMain() {
-    window.location.replace("/main");
-  }
-
-  goToDetail(a) {
-    window.open('/usermng_view?id=' + a, 'User_Mng', "width=900,height=600");
-  }
-  
-  handleChange = (event) => {
-    console.log(event.target.value);
-    this.setState({ selectedOption: event.target.value, isChanged: true });
-  };
-
-  onChangeSearchText = searchText => {
-    this.setState({ searchText: searchText.target.value, isChanged: true });
-  }
-
-  render() {
-    const { selectedOption } = this.state;
-    const { classes } = this.props;
-
-    return (
-      <div>
-        <div className={classes.title}>
-          <h2>게시판</h2>
-          <button onClick={this.goToMain}>메인화면 이동</button>
-        </div>
-        <div>
-          <div className={classes.searchArea}>
-            <Select className={classes.selectBox} value={selectedOption} onChange={this.handleChange} >
-              {Activeoptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value} >
-                    {option.label}
-                  </MenuItem>
-                ))}
-            </Select>
-            <input type='text' id='txtSearch' placeholder='이름, 이메일, UserID...' onChange={this.onChangeSearchText}></input>
-          </div>
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>이름</TableCell>
-                  <TableCell align="center">이메일</TableCell>
-                  <TableCell align="center">활성화</TableCell>
-                  <TableCell align="center">UserID</TableCell>
-                  <TableCell align="center">권한</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.row.map((row) => (
-                  <TableRow key={row.id}>
-                    <TableCell component="th" scope="row" onClick={() => this.goToDetail(row.id)} >
-                      {row.UserName}
-                    </TableCell>
-                    <TableCell align="center">{row.id}</TableCell>
-                    <TableCell align="center">{row.id == 1 ? "활성화" : "비활성화"}</TableCell>
-                    <TableCell align="center">{row.title}</TableCell>
-                    <TableCell align="center">{row.title}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <button type="button" onClick={handleOpen}>
+        react-transition-group
+      </button>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">게시판 글쓰기</DialogTitle>
+        <DialogContent>
+          <form className={classes.root} noValidate autoComplete="off">
+            <DialogContentText>
+              제목:
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="title"
+              label="title"
+              type="=text"
+              value={title}
+              onChange={changeTitle}
+              fullWidth
+            />
+            <DialogContentText>
+              내용:
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="content"
+              label="content"
+              type="text"
+              fullWidth
+              multiline
+              variant="outlined"
+              value={content}
+              onChange={changeContent}
+              rows={20}
+            />
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleSave} color="primary">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }
 
-export default withStyles(useStyles)(BasicTable);
+
+export default Board;

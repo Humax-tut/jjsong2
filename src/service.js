@@ -1,7 +1,7 @@
 import moment from "moment";
 
 var url = "http://localhost:4000/Users";
-var boardUrl = "http://localhost:4000/Board";
+var boardUrl = "http://localhost:4001/Boards";
 
 // 회원정보 조회 (파라미터)
 export const getUserAll = async (param) => {
@@ -16,7 +16,8 @@ export const getUserAll = async (param) => {
 // 회원정보 조회 (1명)
 export const getUserbyId = async (id) => {
   const response = await fetch(url);
-  const users = (await response.json()).Users;
+  //const users = (await response.json()).Users;
+  const users = await response.json();
   let stringid = parseInt(id);
   const user = users.find((user) => user.id === stringid);
   return user;
@@ -28,7 +29,8 @@ export const fetchLogin = async ({ id, password }) => {
 
   if (response.ok) {
     //서버통신이 성공적으로 이루어지면 users에 json값 대입
-    const users = (await response.json()).Users;
+    //const users = (await response.json()).Users;
+    const users = await response.json();
     
     //users안 객체들을 순회하면서 그 객체들의 id값과 form 컴포넌트에서 받음 account의 id값과 비교
     const user = users.find((user) => user.EMail === id);
@@ -49,7 +51,8 @@ export const fetchRegister = async ({ email, userName, password }) => {
   var result = "fail";
   if (response.ok) {
     //서버통신이 성공적으로 이루어지면 users에 json값 대입
-    const users = (await response.json()).Users;
+    //const users = (await response.json()).Users;
+    const users = await response.json();
     //이메일 중복체크
     const user = users.find((user) => user.EMail === email);
     const arr = [];
@@ -119,7 +122,8 @@ export const setUserName = async (id, UserName, IsActive) => {
   var result = "fail";
   if (response.ok) {
     //서버통신이 성공적으로 이루어지면 users에 json값 대입
-    const users = (await response.json()).Users;
+    //const users = (await response.json()).Users;
+    const users = await response.json();
     //이메일 중복체크
     const user = users.find((user) => user.id === id);
     try {
@@ -173,7 +177,8 @@ export const getAllBoard = async (param) => {
   const response = await fetch(boardUrl);
   
   if (response.ok) {
-    const boards = (await response.json()).Boards;
+    //const boards = (await response.json()).Boards;
+    const boards = await response.json();
     // console.log(param);
     if(param.searchText.trim().length < 1){
       return boards;
@@ -183,4 +188,75 @@ export const getAllBoard = async (param) => {
     const findBoards = boards.filter((board) => board.title.indexOf(param.searchText) !== -1)
     return findBoards;
   }
+};
+
+// 이름, 활성화 여부 수정
+export const setBoard = async (id, title, content, user) => {
+  const response = await fetch(boardUrl);
+  var result = "fail";
+
+  if (response.ok) {
+    //const boards = (await response.json()).Boards;
+    const boards = await response.json();
+    const board = id > -1 ? boards.find((board) => board.id === id) : null;
+
+    const arr = [];
+    boards.map((user) => {
+      arr.push(user.id);
+      return true;
+    });
+    const maxId = Math.max(...arr) + 1;
+
+
+    const saveBody = JSON.stringify({
+      id: id < 0 ? maxId : id,
+      title: title,
+      content: content,
+      creator: user.UserID,
+      creatDate: moment().format("YYYY-MM-DD HH:mm:ss"),
+      updator: user.UserID,
+      updateDate: moment().format("YYYY-MM-DD HH:mm:ss"),
+      SystemRole: 'GENERAL',
+      isDelete: 0,
+    });
+    
+    let method= "POST";
+    let callUrl = boardUrl;
+    if (board != null && board != undefined) {
+      saveBody.id = board.id;
+      saveBody.creator = board.creator;
+      saveBody.creatDate = board.creatDate;
+      callUrl = callUrl + '/'+ id; 
+      method = "PUT";
+    }
+    boards.push(saveBody);
+
+    try {
+      
+      await fetch(callUrl, {
+          method: method,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: boards,
+        })
+        .then((res) => {
+          if (res.ok) {
+            result = "success";
+          }
+        })
+        .catch(function (error) {
+          window.alert(error);
+        });
+
+    } catch (error) {
+      window.alert(error);
+    }
+
+    return result;
+  }
+
+  //서버 통신이 안이루어졌을떄
+  throw new Error("서버 통신이 원할하지 않습니다.");
+
 };

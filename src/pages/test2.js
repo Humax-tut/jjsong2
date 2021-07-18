@@ -3,7 +3,7 @@ import React from "react";
 function Test2(props) {
   
   const showMessage = () => {
-    alert('call Function.. > Followed ' + props.user);
+    alert('Followed ' + props.user);
   };
 
   const handleClick = () => {
@@ -11,7 +11,7 @@ function Test2(props) {
   };
 
   return (
-    <button onClick={handleClick}>Follow</button>
+    <button onClick={handleClick}>Function Button</button>
   );
 }
 

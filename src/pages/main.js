@@ -1,6 +1,7 @@
 import { logout } from "../features/userSlice";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import React, { useState } from 'react'
 import Test from "./test"
 import Test2 from "./test2"
 
@@ -13,6 +14,7 @@ function Main() {
   const empname = userInf.name;
   const email = userInf.email;
   const systemrole = userInf.SystemRole;
+
 
   const Logout = () => {
     dispatch(
@@ -29,6 +31,8 @@ function Main() {
     history.replace("/boards");
   }
 
+  const [user, setUser] = useState('');
+
   return (
     <div>
       <h1>Main 화면</h1>
@@ -38,12 +42,30 @@ function Main() {
       <p>이메일 : {email}</p>
       <br/>
       {systemrole == "Role.Legal.SuperAdmin" ? <button onClick={goToUserMng}>회원 관리</button> : ""}
+      <span>&nbsp;</span>
       <button onClick={goToBoard}>게시판</button>
 
       <br></br>
       <br></br>
-      <Test2></Test2>
-      <Test></Test>
+
+      <div>
+        <h4>function vs class</h4>
+        <p>
+          <a href="https://overreacted.io/ko/how-are-function-components-different-from-classes/" target="_blank">이론</a>
+          <span>&nbsp;</span>
+          <a href="https://codesandbox.io/s/pjqnl16lm7?file=/src/ProfilePageFunction.js:59-267" target="_blank">샘플</a>
+        </p>
+        <select value={user} onChange={e => setUser(e.target.value )}>
+          <option value="Dan">Dan</option>
+          <option value="Sophie">Sophie</option>
+          <option value="Sunil">Sunil</option>
+        </select>
+        <p>
+          <Test user={user} />
+          <span>&nbsp;</span>
+          <Test2 user={user} />
+        </p>
+      </div>
     </div>
   );
 }

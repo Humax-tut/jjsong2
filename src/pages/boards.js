@@ -10,6 +10,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from "@material-ui/core/Paper";
 import { getAllBoard } from "../service";
+import Board from './board';
 
 // 커스텀 스타일
 const useStyles = {
@@ -61,13 +62,13 @@ class BasicTable extends Component {
   // lifecycle, 회원정보 불러온 뒤 렌더링
   componentDidUpdate() {
     if (this.state.isChanged) {
-      this.getUserData();
+      this.getBoardData();
       this.setState({ isChanged: false });
     }
   }
 
   // 메소드
-  getUserData = async () => {
+  getBoardData = async () => {
     const rowData = await getAllBoard(this.state);
     this.setState({ row: rowData });
   };
@@ -97,7 +98,8 @@ class BasicTable extends Component {
       <div>
         <div className={classes.title}>
           <h2>게시판</h2>
-          <button onClick={this.goToMain}>메인화면 이동</button>
+          <button onClick={this.goToMain}>메인화면 이동</button>          
+          <Board/>
         </div>
         <div>
           <div className={classes.searchArea}>

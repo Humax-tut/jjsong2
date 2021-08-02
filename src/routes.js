@@ -6,6 +6,7 @@ import Usermng from './pages/usermng';
 import Usermng_View from './pages/usermng_view';
 import Boards from './pages/boards';
 import NotFound from './pages/404';
+import Counter from './pages/test3'
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -13,6 +14,8 @@ class App extends React.Component {
   render() {
     return (
         <Switch>
+          
+          <Route exact path="/clock" component={Counter} />
           <Route exact path="/" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/main" component={Main} />

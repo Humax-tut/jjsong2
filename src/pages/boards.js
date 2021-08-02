@@ -82,7 +82,6 @@ class BasicTable extends Component {
   }
   
   handleChange = (event) => {
-    console.log(event.target.value);
     this.setState({ selectedOption: event.target.value, isChanged: true });
   };
 

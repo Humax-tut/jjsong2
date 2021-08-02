@@ -59,6 +59,7 @@ function Board() {
     console.log('result'+result);
     if(result == "success") {
       alert('success');
+      
     }
     else {
       alert(result);
